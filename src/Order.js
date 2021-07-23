@@ -3,14 +3,16 @@
 import React, { useState } from 'react'
 import schema from './validation/formSchema'
 import { reach } from 'yup'
+import axios from 'axios'
+import { size } from 'lodash'
 
 const initialOrderForm = {
     name:'',
     size:'',
-    pepperoni:'',
-    sausage:'',
-    onions:'',
-    pineapple:''
+    pepperoni:false,
+    sausage:false,
+    onions:false,
+    pineapple:false
 }
 
 const initialFormErrors = {
@@ -37,16 +39,31 @@ export default function Order() {
     const onChange = (e) => {
         const { name, value, type, checked } = e.target
         const useThisValue = type === 'checkbox' ? checked : value
-        console.log(value)
         validate(name, value)
-        console.log(value)
         setOrderForm({...orderForm, [name]: useThisValue})
     }
 
     const onSubmit = (e) => {
         e.preventDefault()
-        setOrder(orderForm)
-        setOrderForm(initialOrderForm)
+        const newOrder = {
+            name:orderForm.name.trim(),
+            size:orderForm.size.trim(),
+            pepperoni:orderForm.pepperoni,
+            sausage:orderForm.sausage,
+            onions:orderForm.onions,
+            pineapple:orderForm.pineapple
+        }
+
+        axios.post('https://reqres.in/api/orders', newOrder)
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+            .finally(() => {
+                setOrderForm(initialOrderForm)
+            })
     }
 
     return (
@@ -87,7 +104,7 @@ export default function Order() {
                                 type='checkbox'
                                 name='pepperoni'
                                 onChange={onChange}
-                                value={orderForm.pepperoni}
+                                checked={orderForm.pepperoni}
                             />
                         </label>
                         <label>Sausage
@@ -95,7 +112,7 @@ export default function Order() {
                                 type='checkbox'
                                 name='sausage'
                                 onChange={onChange}
-                                value={orderForm.sausage}
+                                checked={orderForm.sausage}
                             />
                         </label>
                         <label>Onions
@@ -103,7 +120,7 @@ export default function Order() {
                                 type='checkbox'
                                 name='onions'
                                 onChange={onChange}
-                                value={orderForm.onions}
+                                checked={orderForm.onions}
                             />
                         </label>
                         <label>Pineapple
@@ -111,7 +128,7 @@ export default function Order() {
                                 type='checkbox'
                                 name='pineapple'
                                 onChange={onChange}
-                                value={orderForm.pineapple}
+                                checked={orderForm.pineapple}
                             />
                         </label>
                         </div>
