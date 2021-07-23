@@ -1,19 +1,21 @@
 import React from "react";
 import { Route, Link, Switch, Redirect } from "react-router-dom";
 import Order from './Order'
+import Home from './Home'
 
 const App = () => {
 
   return (
     <>
     <header>
-      <Link to='/'>Lambda Eats</Link>
+      <Link id='order-pizza' to='/'>Lambda Eats</Link>
     </header>
-    <div>
-      <h2>Now taking orders online!</h2>
-      <button>Order</button>
-    </div>
-    <Order />
+    <Route path='/'>
+      <Home />
+    </Route>
+    <Route path='/pizza'>
+      <Order />
+    </Route>
     </>
   );
 };
