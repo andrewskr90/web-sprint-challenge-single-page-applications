@@ -1,10 +1,19 @@
 import React from "react";
+import { Route, Link, Switch, Redirect } from "react-router-dom";
+import Order from './Order'
 
 const App = () => {
+
   return (
     <>
-      <h1>Lambda Eats</h1>
-      <p>You can remove this code and create your own header</p>
+    <header>
+      <Link to='/'>Lambda Eats</Link>
+    </header>
+    <div>
+      <h2>Now taking orders online!</h2>
+      <button>Order</button>
+    </div>
+    <Order />
     </>
   );
 };
