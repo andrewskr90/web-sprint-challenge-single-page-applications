@@ -12,7 +12,8 @@ const initialOrderForm = {
     pepperoni:false,
     sausage:false,
     onions:false,
-    pineapple:false
+    pineapple:false,
+    instructions:''
 }
 
 const initialFormErrors = {
@@ -21,7 +22,8 @@ const initialFormErrors = {
     pepperoni:'',
     sausage:'',
     onions:'',
-    pineapple:''
+    pineapple:'',
+    instructions:''
 }
 
 export default function Order() {
@@ -51,7 +53,8 @@ export default function Order() {
             pepperoni:orderForm.pepperoni,
             sausage:orderForm.sausage,
             onions:orderForm.onions,
-            pineapple:orderForm.pineapple
+            pineapple:orderForm.pineapple,
+            instructions:orderForm.instructions
         }
 
         axios.post('https://reqres.in/api/orders', newOrder)
