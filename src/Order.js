@@ -1,6 +1,6 @@
 // import { validate } from '@babel/types'
 // import { resetWarningCache } from 'prop-types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import schema from './validation/formSchema'
 import { reach } from 'yup'
 import axios from 'axios'
@@ -30,6 +30,7 @@ export default function Order() {
     const [orderForm, setOrderForm] = useState(initialOrderForm)
     const [order, setOrder] = useState({})
     const [formErrors, setFormErrors] = useState(initialFormErrors)
+    const [disable, setDisable] = useState(true)
 
     const validate = (name, value) => {
         reach(schema, name)
@@ -68,6 +69,9 @@ export default function Order() {
                 setOrderForm(initialOrderForm)
             })
     }
+    useEffect(() => {
+    schema.isValid(orderForm).then(valid => setDisable(!valid))
+  }, [orderForm])
 
     return (
         <div>
@@ -145,7 +149,7 @@ export default function Order() {
                             value={orderForm.instructions}
                         />
                     </label>
-                    <button id='order-button'>Place Order</button>
+                    <button disabled={disable} id='order-button'>Place Order</button>
                 </form>
             </div>
         </div>
